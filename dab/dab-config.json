@@ -105,12 +105,36 @@
                     "target.entity": "Employees",
                     "source.fields": ["EmployeeID"],
                     "target.fields": ["ReportsTo"]
-                },
-                "territories": {
-                    "cardinality": "Many",
-                    "target.entity": "Territories",
+                }
+            },
+            "permissions": [
+                {
+                    "role": "anonymous",
+                    "actions": ["*"]
+                }
+            ]
+        },
+        "EmployeeTerritories": {
+            "source": "EmployeeTerritories",
+            "rest": {
+                "path": "/employee-territories"
+            },
+            "graphql": {
+                "enabled": true,
+                "type": "EmployeeTerritories"
+            },
+            "relationships": {
+                "employee": {
+                    "cardinality": "One",
+                    "target.entity": "Employees",
                     "source.fields": ["EmployeeID"],
                     "target.fields": ["EmployeeID"]
+                },
+                "territory": {
+                    "cardinality": "One",
+                    "target.entity": "Territories",
+                    "source.fields": ["TerritoryID"],
+                    "target.fields": ["TerritoryID"]
                 }
             },
             "permissions": [
@@ -315,12 +339,6 @@
                     "target.entity": "Region",
                     "source.fields": ["RegionID"],
                     "target.fields": ["RegionID"]
-                },
-                "employees": {
-                    "cardinality": "Many",
-                    "target.entity": "Employees",
-                    "source.fields": ["TerritoryID"],
-                    "target.fields": ["EmployeeID"]
                 }
             },
             "permissions": [
