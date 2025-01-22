@@ -35,6 +35,18 @@
             "rest": {
                 "path": "/categories"
             },
+            "graphql": {
+                "enabled": true,
+                "type": "Categories"
+            },
+            "relationships": {
+                "products": {
+                    "cardinality": "One",
+                    "target.entity": "Products",
+                    "source.fields": ["CategoryID"],
+                    "target.fields": ["CategoryID"]
+                }
+            },
             "permissions": [
                 {
                     "role": "anonymous",
@@ -47,6 +59,30 @@
             "rest": {
                 "path": "/products"
             },
+            "graphql": {
+                "enabled": true,
+                "type": "Products"
+            },
+            "relationships": {
+                "category": {
+                    "cardinality": "Many",
+                    "target.entity": "Categories",
+                    "source.fields": ["CategoryID"],
+                    "target.fields": ["CategoryID"]
+                },
+                "supplier": {
+                    "cardinality": "Many",
+                    "target.entity": "Suppliers",
+                    "source.fields": ["SupplierID"],
+                    "target.fields": ["SupplierID"]
+                },
+                "orderDetails": {
+                    "cardinality": "One",
+                    "target.entity": "OrderDetails",
+                    "source.fields": ["ProductID"],
+                    "target.fields": ["ProductID"]
+                }
+            },
             "permissions": [
                 {
                     "role": "anonymous",
@@ -58,6 +94,236 @@
             "source": "Suppliers",
             "rest": {
                 "path": "/suppliers"
+            },
+            "graphql": {
+                "enabled": true,
+                "type": "Suppliers"
+            },
+            "relationships": {
+                "products": {
+                    "cardinality": "One",
+                    "target.entity": "Products",
+                    "source.fields": ["SupplierID"],
+                    "target.fields": ["SupplierID"]
+                }
+            },
+            "permissions": [
+                {
+                    "role": "anonymous",
+                    "actions": ["*"]
+                }
+            ]
+        },
+        "Orders": {
+            "source": "Orders",
+            "rest": {
+                "path": "/orders"
+            },
+            "graphql": {
+                "enabled": true,
+                "type": "Orders"
+            },
+            "relationships": {
+                "customer": {
+                    "cardinality": "Many",
+                    "target.entity": "Customers",
+                    "source.fields": ["CustomerID"],
+                    "target.fields": ["CustomerID"]
+                },
+                "employee": {
+                    "cardinality": "Many",
+                    "target.entity": "Employees",
+                    "source.fields": ["EmployeeID"],
+                    "target.fields": ["EmployeeID"]
+                },
+                "shipper": {
+                    "cardinality": "Many",
+                    "target.entity": "Shippers",
+                    "source.fields": ["ShipVia"],
+                    "target.fields": ["ShipperID"]
+                },
+                "orderDetails": {
+                    "cardinality": "One",
+                    "target.entity": "OrderDetails",
+                    "source.fields": ["OrderID"],
+                    "target.fields": ["OrderID"]
+                }
+            },
+            "permissions": [
+                {
+                    "role": "anonymous",
+                    "actions": ["*"]
+                }
+            ]
+        },
+        "OrderDetails": {
+            "source": "Order Details",
+            "rest": {
+                "path": "/order-details"
+            },
+            "graphql": {
+                "enabled": true,
+                "type": "OrderDetails"
+            },
+            "relationships": {
+                "order": {
+                    "cardinality": "Many",
+                    "target.entity": "Orders",
+                    "source.fields": ["OrderID"],
+                    "target.fields": ["OrderID"]
+                },
+                "product": {
+                    "cardinality": "Many",
+                    "target.entity": "Products",
+                    "source.fields": ["ProductID"],
+                    "target.fields": ["ProductID"]
+                }
+            },
+            "permissions": [
+                {
+                    "role": "anonymous",
+                    "actions": ["*"]
+                }
+            ]
+        },
+        "Customers": {
+            "source": "Customers",
+            "rest": {
+                "path": "/customers"
+            },
+            "graphql": {
+                "enabled": true,
+                "type": "Customers"
+            },
+            "relationships": {
+                "orders": {
+                    "cardinality": "One",
+                    "target.entity": "Orders",
+                    "source.fields": ["CustomerID"],
+                    "target.fields": ["CustomerID"]
+                }
+            },
+            "permissions": [
+                {
+                    "role": "anonymous",
+                    "actions": ["*"]
+                }
+            ]
+        },
+        "Employees": {
+            "source": "Employees",
+            "rest": {
+                "path": "/employees"
+            },
+            "graphql": {
+                "enabled": true,
+                "type": "Employees"
+            },
+            "relationships": {
+                "orders": {
+                    "cardinality": "One",
+                    "target.entity": "Orders",
+                    "source.fields": ["EmployeeID"],
+                    "target.fields": ["EmployeeID"]
+                },
+                "manager": {
+                    "cardinality": "Many",
+                    "target.entity": "Employees",
+                    "source.fields": ["ReportsTo"],
+                    "target.fields": ["EmployeeID"]
+                },
+                "subordinates": {
+                    "cardinality": "One",
+                    "target.entity": "Employees",
+                    "source.fields": ["EmployeeID"],
+                    "target.fields": ["ReportsTo"]
+                },
+                "territories": {
+                    "cardinality": "Many",
+                    "target.entity": "Territories",
+                    "join.table": "EmployeeTerritories",
+                    "source.fields": ["EmployeeID"],
+                    "target.fields": ["TerritoryID"]
+                }
+            },
+            "permissions": [
+                {
+                    "role": "anonymous",
+                    "actions": ["*"]
+                }
+            ]
+        },
+        "Shippers": {
+            "source": "Shippers",
+            "rest": {
+                "path": "/shippers"
+            },
+            "graphql": {
+                "enabled": true,
+                "type": "Shippers"
+            },
+            "relationships": {
+                "orders": {
+                    "cardinality": "One",
+                    "target.entity": "Orders",
+                    "source.fields": ["ShipperID"],
+                    "target.fields": ["ShipVia"]
+                }
+            },
+            "permissions": [
+                {
+                    "role": "anonymous",
+                    "actions": ["*"]
+                }
+            ]
+        },
+        "Territories": {
+            "source": "Territories",
+            "rest": {
+                "path": "/territories"
+            },
+            "graphql": {
+                "enabled": true,
+                "type": "Territories"
+            },
+            "relationships": {
+                "region": {
+                    "cardinality": "Many",
+                    "target.entity": "Region",
+                    "source.fields": ["RegionID"],
+                    "target.fields": ["RegionID"]
+                },
+                "employees": {
+                    "cardinality": "Many",
+                    "target.entity": "Employees",
+                    "join.table": "EmployeeTerritories",
+                    "source.fields": ["TerritoryID"],
+                    "target.fields": ["EmployeeID"]
+                }
+            },
+            "permissions": [
+                {
+                    "role": "anonymous",
+                    "actions": ["*"]
+                }
+            ]
+        },
+        "Region": {
+            "source": "Region",
+            "rest": {
+                "path": "/regions"
+            },
+            "graphql": {
+                "enabled": true,
+                "type": "Region"
+            },
+            "relationships": {
+                "territories": {
+                    "cardinality": "One",
+                    "target.entity": "Territories",
+                    "source.fields": ["RegionID"],
+                    "target.fields": ["RegionID"]
+                }
             },
             "permissions": [
                 {
