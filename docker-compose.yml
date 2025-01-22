@@ -7,14 +7,14 @@ services:
       dockerfile: Dockerfile
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=NorthwindDemo123
-      - MSSQL_PID=Developer
+      - SA_PASSWORD=${MSSQL_SA_PASSWORD}
+      - MSSQL_PID=${MSSQL_PID}
     ports:
       - "14330:1433"
     networks:
       - demo-network
     healthcheck:
-      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "NorthwindDemo123" -Q "SELECT 1" -b -o /dev/null
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "${MSSQL_SA_PASSWORD}" -Q "SELECT 1" -b -o /dev/null
       interval: 10s
       timeout: 3s
       retries: 10
@@ -27,7 +27,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - ConnectionStrings__DefaultConnection=Server=db;Database=Northwind;User Id=sa;Password=NorthwindDemo123;TrustServerCertificate=True
+      - ConnectionStrings__DefaultConnection=${CONNECTION_STRING}
     depends_on:
       db:
         condition: service_healthy

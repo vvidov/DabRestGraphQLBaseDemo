@@ -162,6 +162,25 @@ erDiagram
    - REST API: http://localhost:8080/api
    - GraphQL Playground: http://localhost:8080/graphql
 
+## 🔐 Environment Configuration
+
+Before running the application, you need to set up your environment variables:
+
+1. Copy the `.env.template` file to create a new `.env` file:
+   ```bash
+   cp .env.template .env
+   ```
+
+2. Edit the `.env` file with your secure values:
+   - `MSSQL_SA_PASSWORD`: Set a secure password for SQL Server SA account
+   - `MSSQL_PID`: SQL Server edition (default: Developer)
+   - `CONNECTION_STRING`: Database connection string (update with your SA password)
+
+⚠️ **Security Note**: 
+- Never commit the `.env` file to version control
+- Use strong passwords in production
+- The `.env` file is already added to `.gitignore`
+
 ## 🔌 DAB API Container
 
 The Data API Builder (DAB) container acts as a universal database middleware, automatically generating REST and GraphQL APIs from your database schema. This makes it perfect as a template for any database-driven API project.
