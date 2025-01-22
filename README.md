@@ -52,6 +52,51 @@ Access the GraphQL playground at `/graphql` to:
 - Explore the schema
 - View documentation
 
+## 🗄️ Database Container
+
+The project uses a Microsoft SQL Server container (`mcr.microsoft.com/mssql/server:2019-latest`) that can be customized for any database:
+
+### Current Setup
+- Base Image: SQL Server 2019
+- Database: Northwind (sample database)
+- Initialization: Automatic via `init.sql` script
+- Credentials: Configurable via environment variables
+
+### Customizing the Database
+You can easily modify this setup for your own database:
+
+1. Replace the initialization script:
+   ```dockerfile
+   # db/Dockerfile
+   COPY init.sql /docker-entrypoint-initdb.d/
+   ```
+   - Replace `init.sql` with your own database schema and data
+
+2. Update environment variables in `docker-compose.yml`:
+   ```yaml
+   environment:
+     - ACCEPT_EULA=Y
+     - SA_PASSWORD=YourPassword
+     - MSSQL_PID=Developer
+   ```
+
+3. Modify DAB configuration:
+   ```json
+   // dab/dab-config.json
+   {
+     "data-source": {
+       "database-type": "mssql",
+       "connection-string": "Server=db;Database=YourDatabase;..."
+     }
+   }
+   ```
+
+This containerized approach ensures:
+- Consistent database setup across environments
+- Easy database version control
+- Portable development environment
+- Quick setup for new team members
+
 ## 🏗️ Project Structure
 
 ```
