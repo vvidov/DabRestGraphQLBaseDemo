@@ -1,0 +1,70 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Azure/data-api-builder/main/schemas/dab.draft.schema.json",
+    "data-source": {
+        "database-type": "mssql",
+        "connection-string": "@env('ConnectionStrings__DefaultConnection')"
+    },
+    "runtime": {
+        "rest": {
+            "enabled": true,
+            "path": "/api"
+        },
+        "graphql": {
+            "enabled": true,
+            "path": "/graphql",
+            "allow-introspection": true
+        },
+        "host": {
+            "mode": "development",
+            "cors": {
+                "origins": ["*"],
+                "allow-credentials": false
+            },
+            "authentication": {
+                "provider": "StaticWebApps"
+            }
+        },
+        "swagger": {
+            "enabled": true,
+            "path": "/swagger"
+        }
+    },
+    "entities": {
+        "Categories": {
+            "source": "Categories",
+            "rest": {
+                "path": "/categories"
+            },
+            "permissions": [
+                {
+                    "role": "anonymous",
+                    "actions": ["*"]
+                }
+            ]
+        },
+        "Products": {
+            "source": "Products",
+            "rest": {
+                "path": "/products"
+            },
+            "permissions": [
+                {
+                    "role": "anonymous",
+                    "actions": ["*"]
+                }
+            ]
+        },
+        "Suppliers": {
+            "source": "Suppliers",
+            "rest": {
+                "path": "/suppliers"
+            },
+            "permissions": [
+                {
+                    "role": "anonymous",
+                    "actions": ["*"]
+                }
+            ]
+        }
+    }
+}

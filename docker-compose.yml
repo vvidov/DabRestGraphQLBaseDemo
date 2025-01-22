@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  db:
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=NorthwindDemo123
+      - MSSQL_PID=Developer
+    ports:
+      - "14330:1433"
+    networks:
+      - demo-network
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "NorthwindDemo123" -Q "SELECT 1" -b -o /dev/null
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+  dab-api:
+    build: 
+      context: ./dab
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db;Database=Northwind;User Id=sa;Password=NorthwindDemo123;TrustServerCertificate=True
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - demo-network
+
+networks:
+  demo-network:
+    driver: bridge

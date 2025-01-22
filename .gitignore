@@ -1,0 +1,31 @@
+# .NET Core
+bin/
+obj/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# Visual Studio Code
+.vscode/
+.vs/
+*.code-workspace
+
+# Docker
+.docker/
+*.env
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Data API Builder
+.dab/
+
+# Node modules (if we add a frontend later)
+node_modules/
