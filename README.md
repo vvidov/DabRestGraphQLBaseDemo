@@ -258,6 +258,170 @@ Access the GraphQL playground at `/graphql` to:
 - Explore the schema
 - View documentation
 
+## 📊 GraphQL Examples
+
+Access the GraphQL playground at http://localhost:8080/graphql. Here are some sample queries:
+
+### Query Products with Category and Supplier
+```graphql
+query {
+  products {
+    items {
+      productName
+      unitPrice
+      unitsInStock
+      category {
+        categoryName
+        description
+      }
+      supplier {
+        companyName
+        contactName
+        country
+      }
+    }
+  }
+}
+```
+
+### Query Orders with Details and Related Entities
+```graphql
+query {
+  orders {
+    items {
+      orderID
+      orderDate
+      customer {
+        companyName
+        contactName
+      }
+      employee {
+        firstName
+        lastName
+      }
+      shipper {
+        companyName
+      }
+      orderDetails {
+        items {
+          unitPrice
+          quantity
+          product {
+            productName
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+### Query Categories with Related Products
+```graphql
+query {
+  categories {
+    items {
+      categoryName
+      description
+      products {
+        items {
+          productName
+          unitPrice
+          unitsInStock
+        }
+      }
+    }
+  }
+}
+```
+
+### Query Employees with Hierarchy and Territories
+```graphql
+query {
+  employees {
+    items {
+      employeeID
+      firstName
+      lastName
+      title
+      manager {
+        firstName
+        lastName
+      }
+      subordinates {
+        items {
+          firstName
+          lastName
+        }
+      }
+      territories {
+        items {
+          territoryDescription
+          region {
+            regionDescription
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+### Filtered Query with Arguments
+```graphql
+query {
+  products(first: 5, filter: "unitPrice gt 50") {
+    items {
+      productName
+      unitPrice
+      category {
+        categoryName
+      }
+    }
+  }
+}
+```
+
+### Mutation to Create a New Category
+```graphql
+mutation {
+  createCategories(item: {
+    categoryName: "Organic Foods"
+    description: "Certified organic products"
+  }) {
+    categoryID
+    categoryName
+    description
+  }
+}
+```
+
+### Mutation to Update a Product
+```graphql
+mutation {
+  updateProducts(id: 1, item: {
+    unitPrice: 20.00
+    unitsInStock: 100
+  }) {
+    productID
+    productName
+    unitPrice
+    unitsInStock
+  }
+}
+```
+
+These queries demonstrate:
+- Nested relationships (products → category → products)
+- Many-to-one relationships (products → supplier)
+- One-to-many relationships (categories → products)
+- Many-to-many relationships (employees ↔ territories)
+- Self-referential relationships (employee → manager/subordinates)
+- Filtering and pagination
+- Basic mutations for data modification
+
+Access the GraphQL playground to try these queries and explore the auto-generated documentation.
+
 ## 🗄️ Database Container
 
 The project uses a Microsoft SQL Server container (`mcr.microsoft.com/mssql/server:2019-latest`) that can be customized for any database:
