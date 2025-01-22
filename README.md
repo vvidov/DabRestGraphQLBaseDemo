@@ -2,6 +2,133 @@
 
 A modern REST API built with Microsoft Data API Builder (DAB) using the classic Northwind database. This project demonstrates how to create a containerized REST and GraphQL API with automatic Swagger documentation.
 
+## 📊 Database Schema
+
+```mermaid
+erDiagram
+    Categories ||--o{ Products : contains
+    Products }o--|| Suppliers : supplied_by
+    Products }o--o{ Orders : "ordered in"
+    Orders }|--|| Customers : placed_by
+    Orders ||--|{ OrderDetails : contains
+    Orders }o--|| Employees : processed_by
+    Employees ||--o{ Employees : reports_to
+    Territories }o--|| Region : in_region
+    Employees }o--o{ Territories : manages
+    Shippers ||--o{ Orders : ships
+
+    Categories {
+        int CategoryID PK
+        string CategoryName
+        string Description
+        blob Picture
+    }
+
+    Products {
+        int ProductID PK
+        string ProductName
+        int SupplierID FK
+        int CategoryID FK
+        string QuantityPerUnit
+        decimal UnitPrice
+        int UnitsInStock
+        int UnitsOnOrder
+        int ReorderLevel
+        boolean Discontinued
+    }
+
+    Suppliers {
+        int SupplierID PK
+        string CompanyName
+        string ContactName
+        string ContactTitle
+        string Address
+        string City
+        string Region
+        string PostalCode
+        string Country
+        string Phone
+        string Fax
+        string HomePage
+    }
+
+    Orders {
+        int OrderID PK
+        string CustomerID FK
+        int EmployeeID FK
+        date OrderDate
+        date RequiredDate
+        date ShippedDate
+        int ShipVia FK
+        decimal Freight
+        string ShipName
+        string ShipAddress
+        string ShipCity
+        string ShipRegion
+        string ShipPostalCode
+        string ShipCountry
+    }
+
+    Customers {
+        string CustomerID PK
+        string CompanyName
+        string ContactName
+        string ContactTitle
+        string Address
+        string City
+        string Region
+        string PostalCode
+        string Country
+        string Phone
+        string Fax
+    }
+
+    Employees {
+        int EmployeeID PK
+        string LastName
+        string FirstName
+        string Title
+        string TitleOfCourtesy
+        date BirthDate
+        date HireDate
+        string Address
+        string City
+        string Region
+        string PostalCode
+        string Country
+        string HomePhone
+        string Extension
+        blob Photo
+        text Notes
+        int ReportsTo FK
+    }
+
+    OrderDetails {
+        int OrderID PK,FK
+        int ProductID PK,FK
+        decimal UnitPrice
+        int Quantity
+        float Discount
+    }
+
+    Shippers {
+        int ShipperID PK
+        string CompanyName
+        string Phone
+    }
+
+    Territories {
+        string TerritoryID PK
+        string TerritoryDescription
+        int RegionID FK
+    }
+
+    Region {
+        int RegionID PK
+        string RegionDescription
+    }
+```
+
 ## 🚀 Features
 
 - **REST API** endpoints for Northwind database entities
