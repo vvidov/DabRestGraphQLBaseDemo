@@ -267,17 +267,17 @@ Access the GraphQL playground at http://localhost:8080/graphql. Here are some sa
 query {
   products {
     items {
-      productName
-      unitPrice
-      unitsInStock
+      ProductName
+      UnitPrice
+      UnitsInStock
       category {
-        categoryName
-        description
+        CategoryName
+        Description
       }
       supplier {
-        companyName
-        contactName
-        country
+        CompanyName
+        ContactName
+        Country
       }
     }
   }
@@ -289,25 +289,25 @@ query {
 query {
   orders {
     items {
-      orderID
-      orderDate
+      OrderID
+      OrderDate
       customer {
-        companyName
-        contactName
+        CompanyName
+        ContactName
       }
       employee {
-        firstName
-        lastName
+        FirstName
+        LastName
       }
       shipper {
-        companyName
+        CompanyName
       }
       orderDetails {
         items {
-          unitPrice
-          quantity
+          UnitPrice
+          Quantity
           product {
-            productName
+            ProductName
           }
         }
       }
@@ -321,13 +321,13 @@ query {
 query {
   categories {
     items {
-      categoryName
-      description
+      CategoryName
+      Description
       products {
         items {
-          productName
-          unitPrice
-          unitsInStock
+          ProductName
+          UnitPrice
+          UnitsInStock
         }
       }
     }
@@ -340,25 +340,25 @@ query {
 query {
   employees {
     items {
-      employeeID
-      firstName
-      lastName
-      title
+      EmployeeID
+      FirstName
+      LastName
+      Title
       manager {
-        firstName
-        lastName
+        FirstName
+        LastName
       }
-      subordinates {
+      directReports {
         items {
-          firstName
-          lastName
+          FirstName
+          LastName
         }
       }
       territories {
         items {
-          territoryDescription
+          TerritoryDescription
           region {
-            regionDescription
+            RegionDescription
           }
         }
       }
@@ -370,12 +370,12 @@ query {
 ### Filtered Query with Arguments
 ```graphql
 query {
-  products(first: 5, filter: "unitPrice gt 50") {
+  products(first: 5, filter: {UnitPrice: {gt: 15}}) {
     items {
-      productName
-      unitPrice
+      ProductName
+      UnitPrice
       category {
-        categoryName
+        CategoryName
       }
     }
   }
@@ -386,12 +386,12 @@ query {
 ```graphql
 mutation {
   createCategories(item: {
-    categoryName: "Organic Foods"
-    description: "Certified organic products"
+    CategoryName: "Organic Foods"
+    Description: "Certified organic products"
   }) {
-    categoryID
-    categoryName
-    description
+    CategoryID
+    CategoryName
+    Description
   }
 }
 ```
@@ -399,14 +399,14 @@ mutation {
 ### Mutation to Update a Product
 ```graphql
 mutation {
-  updateProducts(id: 1, item: {
-    unitPrice: 20.00
-    unitsInStock: 100
+  updateProducts(ProductID: 1, item: {
+    UnitPrice: 20.00
+    UnitsInStock: 100
   }) {
-    productID
-    productName
-    unitPrice
-    unitsInStock
+    ProductID
+    ProductName
+    UnitPrice
+    UnitsInStock
   }
 }
 ```
@@ -416,7 +416,7 @@ These queries demonstrate:
 - Many-to-one relationships (products → supplier)
 - One-to-many relationships (categories → products)
 - Many-to-many relationships (employees ↔ territories)
-- Self-referential relationships (employee → manager/subordinates)
+- Self-referential relationships (employee → manager/directReports)
 - Filtering and pagination
 - Basic mutations for data modification
 
@@ -500,4 +500,4 @@ This demo uses anonymous authentication for simplicity. In a production environm
 
 ## 📝 License
 
-This project is open-source and available under the MIT License.
+This project is licensed under the MIT License - see the LICENSE file for details.
