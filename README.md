@@ -148,8 +148,8 @@ erDiagram
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
-   cd dabrestreactdemo
+   git clone https://github.com/vvidov/DabRestGraphQLBaseDemo.git
+   cd DabRestGraphQLBaseDemo
    ```
 
 2. Start the containers:
