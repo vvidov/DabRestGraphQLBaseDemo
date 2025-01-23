@@ -1,6 +1,6 @@
-# Northwind DAB REST API Demo
+# Northwind DAB REST and GraphQL API Demo
 
-A modern REST API built with Microsoft Data API Builder (DAB) using the classic Northwind database. This project demonstrates how to create a containerized REST and GraphQL API with automatic Swagger documentation.
+A modern REST and GraphQL API built with Microsoft Data API Builder (DAB) using the classic Northwind database. This project demonstrates how to create a containerized API with automatic Swagger documentation and GraphQL endpoint.
 
 ## 📊 Database Schema
 
@@ -240,6 +240,48 @@ Benefits:
 - Built-in GraphQL support
 - Easy configuration
 - Production-ready middleware
+
+## 🔌 Using as a Base Repository
+
+This repository provides a ready-to-use Data API Builder setup with SQL Server and Northwind database. You can use it as a base for your own projects to quickly get a REST and GraphQL API.
+
+Follow these steps to use it in your project:
+
+### 1. Create Your Project Directory
+```bash
+mkdir my-project
+cd my-project
+```
+
+### 2. Add This Repository as a Submodule
+```bash
+git init
+git submodule add https://github.com/vvidov/DabRestReactDemo.git dab-base
+```
+
+### 3. Set Up Environment Variables
+Create a new file named `.env` in the `dab-base` directory with the following content:
+```env
+MSSQL_SA_PASSWORD=YourStrongPassword123!
+MSSQL_PID=Developer
+CONNECTION_STRING=Server=db;Database=Northwind;User Id=sa;Password=YourStrongPassword123!;TrustServerCertificate=True
+```
+⚠️ Make sure to replace `YourStrongPassword123!` with a secure password.
+
+### 4. Start the Base Services
+```bash
+cd dab-base
+docker-compose up -d --build
+```
+
+### What You Get
+Once running, you'll have access to:
+- SQL Server with Northwind database (port 14330)
+- REST API endpoints (http://localhost:8080/api)
+- GraphQL endpoint (http://localhost:8080/graphql)
+- Swagger documentation (http://localhost:8080/swagger)
+
+You can now build your frontend application using these APIs.
 
 ## 📚 API Endpoints
 
