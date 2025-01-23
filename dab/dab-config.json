@@ -7,7 +7,8 @@
     "runtime": {
         "rest": {
             "enabled": true,
-            "path": "/api"
+            "path": "/api",
+            "request-body-strict": false
         },
         "graphql": {
             "enabled": true,
@@ -23,10 +24,6 @@
             "authentication": {
                 "provider": "StaticWebApps"
             }
-        },
-        "swagger": {
-            "enabled": true,
-            "path": "/swagger"
         }
     },
     "entities": {
@@ -41,7 +38,7 @@
             },
             "relationships": {
                 "products": {
-                    "cardinality": "Many",
+                    "cardinality": "many",
                     "target.entity": "Products",
                     "source.fields": ["CategoryID"],
                     "target.fields": ["CategoryID"]
@@ -50,7 +47,7 @@
             "permissions": [
                 {
                     "role": "anonymous",
-                    "actions": ["*"]
+                    "actions": ["create", "read", "update", "delete"]
                 }
             ]
         },
@@ -65,7 +62,7 @@
             },
             "relationships": {
                 "orders": {
-                    "cardinality": "Many",
+                    "cardinality": "many",
                     "target.entity": "Orders",
                     "source.fields": ["CustomerID"],
                     "target.fields": ["CustomerID"]
@@ -89,19 +86,19 @@
             },
             "relationships": {
                 "orders": {
-                    "cardinality": "Many",
+                    "cardinality": "many",
                     "target.entity": "Orders",
                     "source.fields": ["EmployeeID"],
                     "target.fields": ["EmployeeID"]
                 },
                 "manager": {
-                    "cardinality": "One",
+                    "cardinality": "one",
                     "target.entity": "Employees",
                     "source.fields": ["ReportsTo"],
                     "target.fields": ["EmployeeID"]
                 },
                 "directReports": {
-                    "cardinality": "Many",
+                    "cardinality": "many",
                     "target.entity": "Employees",
                     "source.fields": ["EmployeeID"],
                     "target.fields": ["ReportsTo"]
@@ -125,13 +122,13 @@
             },
             "relationships": {
                 "employee": {
-                    "cardinality": "One",
+                    "cardinality": "one",
                     "target.entity": "Employees",
                     "source.fields": ["EmployeeID"],
                     "target.fields": ["EmployeeID"]
                 },
                 "territory": {
-                    "cardinality": "One",
+                    "cardinality": "one",
                     "target.entity": "Territories",
                     "source.fields": ["TerritoryID"],
                     "target.fields": ["TerritoryID"]
@@ -155,13 +152,13 @@
             },
             "relationships": {
                 "order": {
-                    "cardinality": "One",
+                    "cardinality": "one",
                     "target.entity": "Orders",
                     "source.fields": ["OrderID"],
                     "target.fields": ["OrderID"]
                 },
                 "product": {
-                    "cardinality": "One",
+                    "cardinality": "one",
                     "target.entity": "Products",
                     "source.fields": ["ProductID"],
                     "target.fields": ["ProductID"]
@@ -185,25 +182,25 @@
             },
             "relationships": {
                 "customer": {
-                    "cardinality": "One",
+                    "cardinality": "one",
                     "target.entity": "Customers",
                     "source.fields": ["CustomerID"],
                     "target.fields": ["CustomerID"]
                 },
                 "employee": {
-                    "cardinality": "One",
+                    "cardinality": "one",
                     "target.entity": "Employees",
                     "source.fields": ["EmployeeID"],
                     "target.fields": ["EmployeeID"]
                 },
                 "shipper": {
-                    "cardinality": "One",
+                    "cardinality": "one",
                     "target.entity": "Shippers",
                     "source.fields": ["ShipVia"],
                     "target.fields": ["ShipperID"]
                 },
                 "orderDetails": {
-                    "cardinality": "Many",
+                    "cardinality": "many",
                     "target.entity": "OrderDetails",
                     "source.fields": ["OrderID"],
                     "target.fields": ["OrderID"]
@@ -227,19 +224,19 @@
             },
             "relationships": {
                 "category": {
-                    "cardinality": "One",
+                    "cardinality": "one",
                     "target.entity": "Categories",
                     "source.fields": ["CategoryID"],
                     "target.fields": ["CategoryID"]
                 },
                 "supplier": {
-                    "cardinality": "One",
+                    "cardinality": "one",
                     "target.entity": "Suppliers",
                     "source.fields": ["SupplierID"],
                     "target.fields": ["SupplierID"]
                 },
                 "orderDetails": {
-                    "cardinality": "Many",
+                    "cardinality": "many",
                     "target.entity": "OrderDetails",
                     "source.fields": ["ProductID"],
                     "target.fields": ["ProductID"]
@@ -263,7 +260,7 @@
             },
             "relationships": {
                 "territories": {
-                    "cardinality": "Many",
+                    "cardinality": "many",
                     "target.entity": "Territories",
                     "source.fields": ["RegionID"],
                     "target.fields": ["RegionID"]
@@ -287,7 +284,7 @@
             },
             "relationships": {
                 "orders": {
-                    "cardinality": "Many",
+                    "cardinality": "many",
                     "target.entity": "Orders",
                     "source.fields": ["ShipperID"],
                     "target.fields": ["ShipVia"]
@@ -311,7 +308,7 @@
             },
             "relationships": {
                 "products": {
-                    "cardinality": "Many",
+                    "cardinality": "many",
                     "target.entity": "Products",
                     "source.fields": ["SupplierID"],
                     "target.fields": ["SupplierID"]
@@ -335,7 +332,7 @@
             },
             "relationships": {
                 "region": {
-                    "cardinality": "One",
+                    "cardinality": "one",
                     "target.entity": "Region",
                     "source.fields": ["RegionID"],
                     "target.fields": ["RegionID"]
