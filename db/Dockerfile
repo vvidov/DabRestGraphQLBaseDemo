@@ -14,41 +14,17 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Copy initialization script
-COPY instnwnd.sql /docker-entrypoint-initdb.d/1.sql
+COPY instnwnd.sql /1.sql
 
-# Create startup script
-COPY <<-"EOF" /docker-entrypoint-initdb.d/init.sh
-#!/bin/bash
-set -e
-
-# Start SQL Server
-/opt/mssql/bin/sqlservr & 
-
-# Wait for SQL Server to be ready
-for i in {1..60}; do
-    if /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -Q "SELECT 1" -b -y 30 >/dev/null 2>&1; then
-        echo "SQL Server is ready"
-        break
-    fi
-    echo "Waiting for SQL Server to start... ($i/60)"
-    sleep 1
-done
-
-# Drop database if exists and create new one
-/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -Q "IF DB_ID('Northwind') IS NOT NULL DROP DATABASE Northwind" -b -y 30
-/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -Q "CREATE DATABASE Northwind" -b -y 30
-echo "Created Northwind database"
-
-/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -d Northwind -i /docker-entrypoint-initdb.d/1.sql -b -y 30
-echo "Initialized Northwind database"
-
-# Keep container running
-tail -f /dev/null
-EOF
-
-RUN chmod +x /docker-entrypoint-initdb.d/init.sh && \
-    chown -R mssql /docker-entrypoint-initdb.d
+RUN echo '#!/bin/bash' > /entrypoint.sh && \
+    echo 'set -e' >> /entrypoint.sh && \
+    echo '/opt/mssql/bin/sqlservr & sleep 30' >> /entrypoint.sh && \
+    echo '/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -Q "IF DB_ID('\''Northwind'\'') IS NOT NULL DROP DATABASE Northwind"' >> /entrypoint.sh && \
+    echo '/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -Q "CREATE DATABASE Northwind"' >> /entrypoint.sh && \
+    echo '/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -d Northwind -i /1.sql' >> /entrypoint.sh && \
+    echo 'tail -f /dev/null' >> /entrypoint.sh && \
+    chmod +x /entrypoint.sh && \
+    chown mssql:root /entrypoint.sh /1.sql
 
 USER mssql
-
-CMD ["/docker-entrypoint-initdb.d/init.sh"]
+CMD ["/entrypoint.sh"]
