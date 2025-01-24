@@ -183,18 +183,50 @@ Before running the application, you need to set up your environment variables:
 
 ## 🔌 DAB API Container
 
-The Data API Builder (DAB) container acts as a universal database middleware, automatically generating REST and GraphQL APIs from your database schema. This makes it perfect as a template for any database-driven API project.
+The project uses Data API Builder, a powerful tool from Microsoft that automatically generates REST and GraphQL APIs from your database. Our DAB container is configured using:
 
-### Features
-- **Automatic API Generation**: 
-  - REST endpoints with CRUD operations
-  - GraphQL API with flexible querying
-  - Swagger documentation
-- **Database Agnostic**: Works with SQL Server, PostgreSQL, MySQL, and more
-- **Configuration-Based**: No coding required, just update the config file
-- **Flexible Routing**: Customize API endpoints and entity mappings
+- Base image: `mcr.microsoft.com/dotnet/sdk:8.0`
+- Configuration: Uses `dab-config.json` for API definitions
+- Exposed port: 8080
+- Runs as a containerized service using the DAB CLI
 
-### Using as a Template
+### Key Features of Data API Builder
+
+1. **API Support**:
+   - REST endpoints (POST, GET, PUT, PATCH, DELETE)
+   - GraphQL endpoints with queries and mutations
+   - OpenAPI/Swagger support
+
+2. **Database Support**:
+   - SQL Server and Azure SQL
+   - PostgreSQL and Azure Database for PostgreSQL
+   - MySQL and Azure Database for MySQL
+   - Azure Cosmos DB (NoSQL and PostgreSQL)
+   - Azure SQL Data Warehouse
+
+3. **Advanced Capabilities**:
+   - Multiple simultaneous data sources
+   - Support for tables, views, and stored procedures
+   - Built-in filtering, sorting, and pagination
+   - In-memory caching
+   - Relationship navigation
+   - Dynamic schemas
+
+4. **Security Features**:
+   - OAuth2/JWT authentication
+   - EasyAuth and Microsoft Entra Identity integration
+   - Role-based authorization
+   - Item-level security via policy expressions
+
+5. **Developer Experience**:
+   - Zero-code configuration
+   - Cross-platform CLI
+   - Docker-friendly container
+   - Native OpenAPI support
+   - Automatic CRUD operations
+
+## 🔌 Using as a Template
+
 To adapt this for your own database:
 
 1. Keep the DAB container setup:
